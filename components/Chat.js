@@ -11,6 +11,11 @@ const Chat = () => {
 
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (e) => {
+    setSelectedFile(e.target.files[0]);
+  };
 
   useEffect(() => {
     socket.on('chat message', (msg) => {
@@ -23,10 +28,26 @@ const Chat = () => {
   }, []);
 
   const sendMessage = () => {
-    if (message.trim()) {
+    if (message.trim() || selectedFile) {
       const messageObj = { username, text: message };
-      socket.emit('chat message', messageObj);
-      console.log('Message sent:', messageObj);
+  
+      if (selectedFile) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          messageObj.file = {
+            name: selectedFile.name,
+            data: reader.result,
+          };
+          socket.emit('chat message', messageObj);
+          console.log('Message sent:', messageObj);
+          setSelectedFile(null);
+        };
+        reader.readAsDataURL(selectedFile);
+      } else {
+        socket.emit('chat message', messageObj);
+        console.log('Message sent:', messageObj);
+      }
+  
       setMessage('');
     }
   };
@@ -65,6 +86,13 @@ const Chat = () => {
         {messages.map((msg, index) => (
           <div key={index} className={styles.message}>
             <strong>{msg.username}:</strong> {msg.text}
+            {msg.file && (
+              <div>
+                <a href={msg.file.data} download={msg.file.name}>
+                  {msg.file.name}
+                </a>
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -75,6 +103,11 @@ const Chat = () => {
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Type a message"
           className={styles.input}
+        />
+        <input
+          type="file"
+          onChange={handleFileChange}
+          className={styles.fileInput}
         />
         <button onClick={sendMessage} className={styles.sendButton}>
           Send
