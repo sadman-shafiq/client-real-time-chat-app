@@ -46,11 +46,11 @@ export default function DashboardPage() {
             >
               Your Dashboard
             </motion.h1>
-            <Button className="m-4 flex items-end text-red-500"
+            <Button className="m-4 flex items-end bg-black text-red-500"
               onClick={logOut}
             >
               Logout
-              <LogOut className="h-4 w-4 bg-red" />
+              <LogOut className="h-4 w-4" />
             </Button>
           </motion.div>
           <motion.div

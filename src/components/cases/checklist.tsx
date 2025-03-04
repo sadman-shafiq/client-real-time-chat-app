@@ -20,7 +20,7 @@ export default function Checklist() {
   useEffect(() => {
     async function fetchTasks() {
       try {
-        const response = await fetch(`http://localhost:10101/tasks/${caseId}`, {
+        const response = await fetch(`http://localhost:8000/tasks/${caseId}`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -44,7 +44,7 @@ export default function Checklist() {
     {
       try {
         const taskid = task.task_id;
-        const response = await fetch(`http://localhost:10101/tasks/${taskid}/incomplete`, {
+        const response = await fetch(`http://localhost:8000/tasks/${taskid}/incomplete`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -71,7 +71,7 @@ export default function Checklist() {
       try {
         const taskid = task.task_id;
         console.log(taskid);
-        const response = await fetch(`http://localhost:10101/tasks/${taskid}/complete`, {
+        const response = await fetch(`http://localhost:8000/tasks/${taskid}/complete`, {
           method: 'PATCH',
     
           headers: {

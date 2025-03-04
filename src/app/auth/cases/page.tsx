@@ -36,7 +36,7 @@ const getStatusColor = (status: string) => {
     case 'closed':
       return 'bg-gray-100 text-border-800'
     default:
-      return 'bg-blue-100 text-blue-800'
+      return 'bg-purple-100 text-pink-800'
   }
 }
 
@@ -75,7 +75,7 @@ export default function MyCasesPage() {
         const fetchCases = async () => {
           try {
             console.log("Userid", userId, "cookies: ", cookies)
-            const res = await fetch(`http://localhost:10101/cases/client/${userId}`, {
+            const res = await fetch(`http://localhost:8000/cases/client/${userId}`, {
               method: 'GET',
               credentials: 'include',
             });

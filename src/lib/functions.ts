@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import {parseCookies } from 'nookies';
-const BACKEND_URL = process.env.BASE_URL || 'http://localhost:10101';
+const BACKEND_URL = process.env.BASE_URL || 'http://localhost:8000';
 
 // --- Authentication Routes ---
 export async function auth_signup(body: any) {

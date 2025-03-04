@@ -13,9 +13,9 @@ body, html {
     --card-foreground: 20 14.3% 4.1%;
     --popover: 0 0% 100%;
     --popover-foreground: 20 14.3% 4.1%;
-    --primary: 24 9.8% 10%;
+    --primary: 270 50% 40%; /* Purple */
     --primary-foreground: 60 9.1% 97.8%;
-    --secondary: 60 4.8% 95.9%;
+    --secondary: 300 50% 70%; /* Pink */
     --secondary-foreground: 24 9.8% 10%;
     --muted: 60 4.8% 95.9%;
     --muted-foreground: 25 5.3% 44.7%;
@@ -48,9 +48,9 @@ body, html {
     --card-foreground: 60 9.1% 97.8%;
     --popover: 20 14.3% 4.1%;
     --popover-foreground: 60 9.1% 97.8%;
-    --primary: 60 9.1% 97.8%;
+    --primary: 270 50% 40%; /* Purple */
     --primary-foreground: 24 9.8% 10%;
-    --secondary: 12 6.5% 15.1%;
+    --secondary: 300 50% 70%; /* Pink */
     --secondary-foreground: 60 9.1% 97.8%;
     --muted: 12 6.5% 15.1%;
     --muted-foreground: 24 5.4% 63.9%;
@@ -129,8 +129,6 @@ body, html {
   animation: fadeIn 0.5s ease-out;
 }
 
-
-
 @layer base {
   * {
     @apply border-border outline-ring/50;
@@ -139,6 +137,12 @@ body, html {
     @apply bg-background text-foreground;
   }
 }
-/* nextjs-portal {
-  display: none;
-} */
+
+/* Gradients */
+.bg-gradient-primary {
+  background: linear-gradient(90deg, hsl(270, 50%, 40%), hsl(300, 50%, 70%));
+}
+
+.bg-gradient-secondary {
+  background: linear-gradient(90deg, hsl(300, 50%, 70%), hsl(270, 50%, 40%));
+}

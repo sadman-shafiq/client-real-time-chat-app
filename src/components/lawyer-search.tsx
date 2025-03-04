@@ -38,7 +38,7 @@ export default function LawyerSearch({ mapLocation }: LawyerSearchProps) {
   const [minExperience, setMinExperience] = useState<number | null>(null)
   const [practiceAreaSearch, setPracticeAreaSearch] = useState("")
   const [radius, setRadius] = useState(50)
-  const baseUrl = process.env.baseUrl || "http://68.183.246.96:10101"
+  const baseUrl = process.env.baseUrl || "http://68.183.246.96:8000"
 
   const fetchLawyers = async () => {
     setLoading(true)

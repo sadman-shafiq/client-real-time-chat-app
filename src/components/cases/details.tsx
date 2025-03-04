@@ -170,7 +170,7 @@ export default function CaseDetailsPage() {
   useEffect(() => {
     async function fetchHearings() {
       try {
-        const response = await fetch(`http://localhost:10101/hearings/case/${caseId}`, {
+        const response = await fetch(`http://localhost:8000/hearings/case/${caseId}`, {
           method: 'GET',
           credentials: 'include', 
         });
@@ -194,7 +194,7 @@ export default function CaseDetailsPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:10101/cases/${caseId}`, {
+        const res = await fetch(`http://localhost:8000/cases/${caseId}`, {
           method: 'GET',
           credentials: 'include', 
         });

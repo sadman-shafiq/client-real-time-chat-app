@@ -47,7 +47,7 @@ export default function FileCasePage() {
     try {
 
      // const client_id = '3';
-      const response = await fetch("http://localhost:10101/cases/client", {
+      const response = await fetch("http://localhost:8000/cases/client", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -134,7 +134,7 @@ export default function FileCasePage() {
 </div>
 
 
-        <Button type="submit" className="mb-10 w-full py-4 text-lg font-medium rounded-md bg-blue-500 hover:bg-blue-600 text-white">
+        <Button type="submit" className="mb-10 w-full py-4 text-lg font-medium rounded-md bg-purple-500 hover:bg-purple-600 text-white">
           Submit
         </Button>
       </form>

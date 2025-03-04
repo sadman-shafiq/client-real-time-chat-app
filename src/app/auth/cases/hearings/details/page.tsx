@@ -33,7 +33,7 @@ export default function HearingPage() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await fetch(`http://localhost:10101/hearings/${hearing_id}`, {
+        const res = await fetch(`http://localhost:8000/hearings/${hearing_id}`, {
           method: 'GET',
           credentials: 'include', 
         });

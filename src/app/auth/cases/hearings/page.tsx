@@ -33,7 +33,7 @@ export default function HearingsPage() {
 
     async function fetchHearings() {
       try {
-        const response = await fetch(`http://localhost:10101/hearings/user/${userId}`, {
+        const response = await fetch(`http://localhost:8000/hearings/user/${userId}`, {
           method: 'GET',
           credentials: 'include', 
         });

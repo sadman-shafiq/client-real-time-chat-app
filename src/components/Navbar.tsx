@@ -17,9 +17,9 @@ import { motion } from "framer-motion"
 import { destroyCookie, parseCookies } from 'nookies'
 
 
-const navItems = [
+// const navItems = [
  
-]
+// ]
 
 export default function Layout({ children }: { children: React.ReactNode }) {
     const router = useRouter()
@@ -68,7 +68,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </Link>
             </motion.div>
             <nav className="hidden md:flex items-center gap-6">
-              {navItems.map((item) => (
+              {/*navItems.map((item) => (
                 <motion.div key={item.href} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                   <Link
                     href={item.href}
@@ -83,16 +83,16 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                     )}
                   </Link>
                 </motion.div>
-              ))}
+              ))*/}
             </nav>
             <div className="flex items-center gap-4">
               <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                 {cookies.token ? (
-                 <Button className="m-4 flex items-end text-red-500"
+                 <Button className="m-4 flex items-end bg-black text-red-500"
                  onClick={logOut}
                >
                  Logout
-                 <LogOut className="h-4 w-4 bg-red" />
+                 <LogOut className="h-4 w-4" />
                </Button>
                 ) : (
                   <Link href="/auth/login">
@@ -124,7 +124,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                       </SheetTrigger>
                     </div>
                     <nav className="flex flex-col gap-4">
-                      {navItems.map((item) => (
+                      {/*navItems.map((item) => (
                         <motion.div key={item.href} whileHover={{ x: 10 }} whileTap={{ scale: 0.95 }}>
                           <Link
                             href={item.href}
@@ -136,13 +136,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                             {item.label}
                           </Link>
                         </motion.div>
-                      ))}
+                      ))*/}
                     </nav>
                     <div className="mt-auto">
                       {cookies.token ? (
                         <Link href={lawyer !== null ? "/chat-app" : "/chat-app"}>
                           <Button className="w-full bg-primary-600 hover:bg-primary-700 text-white font-medium">
-                            Dashboard
+                            Chat
                           </Button>
                         </Link>
                       ) : (

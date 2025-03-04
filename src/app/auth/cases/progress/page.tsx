@@ -26,7 +26,7 @@ export default function ProgressPage() {
         const fetchCases = async () => {
           try {
             console.log("Userid", userId, "cookies: ", cookies)
-            const res = await fetch(`http://localhost:10101/cases/client/${userId}`, {
+            const res = await fetch(`http://localhost:8000/cases/client/${userId}`, {
               method: 'GET',
               credentials: 'include',
             });
@@ -52,7 +52,7 @@ export default function ProgressPage() {
         await Promise.all(
           cases.map(async (caseItem) => {
             try {
-              const res = await fetch(`http://localhost:10101/tasks/${caseItem.case_id}`);
+              const res = await fetch(`http://localhost:8000/tasks/${caseItem.case_id}`);
               if (!res.ok) {
                 throw new Error(`Error fetching tasks for case ${caseItem.case_id}`);
               }
@@ -89,7 +89,7 @@ export default function ProgressPage() {
             <CardHeader>
               <CardTitle>{caseItem.title}</CardTitle>
               <Link href={`/auth/cases/checklist?caseId=${caseItem.case_id}`}>
-                <p className="text-blue-600 text-sm font-semibold hover:underline">
+                <p className="text-purple-600 text-sm font-semibold hover:underline">
                   Details
                 </p>
               </Link>

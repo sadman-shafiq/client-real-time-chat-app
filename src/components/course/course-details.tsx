@@ -190,7 +190,7 @@ export function CourseDetails({
               <ul className="space-y-2">
                 {relatedCourses.map((course, index) => (
                   <li key={index}>
-                    <a href={course.href} className="text-blue-600 hover:underline">{course.title}</a>
+                    <a href={course.href} className="text-purple-600 hover:underline">{course.title}</a>
                   </li>
                 ))}
               </ul>

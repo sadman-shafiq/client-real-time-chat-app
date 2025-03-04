@@ -9,7 +9,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-
+import {useRouter} from 'next/navigation'
 import { Send, Paperclip, X, Menu, Timer, Search, Plus } from "lucide-react"
 import { parseCookies } from "nookies"
 
@@ -147,20 +147,32 @@ export default function Chat() {
   const [conversationUsers, setConversationUsers] = useState<User[]>([])
 
   const cookies = parseCookies()
-  const userCookie = cookies.user ? JSON.parse(cookies.user) : null
-  const loggedInUserId = userCookie ? userCookie.userId : null
+  const [userCookie, setUserCookie] = useState<{ userId: number, username: string,  } | null>(null)
+  const [loggedInUserId, setLoggedInUserId] = useState<number | null>(null)
+  const router = useRouter()
+  // const userCookie = cookies.user ? JSON.parse(cookies.user) : null
+  // const loggedInUserId = userCookie ? userCookie.userId : null
 
   // Fetch conversation partners for the logged in user.
   useEffect(() => {
-    if (!loggedInUserId) return
+    setUserCookie(cookies.user ? JSON.parse(cookies.user) : null)
+    setLoggedInUserId(userCookie ? userCookie.userId : null)
+    if (!loggedInUserId) {
+      console.error("No logged in user")
+      router.push("/auth/login")
+    }
     console.log("cookie user:", userCookie)
-
+    
     async function fetchConversations() {
       try {
         console.log("Fetching conversations for user:", loggedInUserId)
-        const res = await fetch(`http://localhost:10101/chat/conversations/${loggedInUserId}`, {
+        const res = await fetch(`http://localhost:8000/chat/conversations/${loggedInUserId}`, {
           method: "GET",
           credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`, 
+          },
         })
         const data = await res.json()
         if (res.ok) {
@@ -183,10 +195,14 @@ export default function Chat() {
 
   // Fetch conversation messages for the selected user.
   const fetchConversationForUser = async (conversationUser: User) => {
-    if (!loggedInUserId) return
+    if (!loggedInUserId) {
+      console.error("No logged in user found.")
+      router.push("/auth/login")
+      return
+    }
     try {
       const response = await fetch(
-        `http://localhost:10101/chat/messages?userId=${loggedInUserId}&conversationWith=${conversationUser.user_id}`,
+        `http://localhost:8000/chat/messages?userId=${loggedInUserId}&conversationWith=${conversationUser.user_id}`,
         {
           method: "GET",
           credentials: "include",
@@ -243,7 +259,7 @@ export default function Chat() {
         const formData = new FormData()
         formData.append("file", attachment)
         try {
-          const uploadRes = await fetch("http://localhost:10101/chat/upload", {
+          const uploadRes = await fetch("http://localhost:8000/chat/upload", {
             method: "POST",
             body: formData,
           })
@@ -260,7 +276,7 @@ export default function Chat() {
         :  240000
 
       try {
-        const res = await fetch("http://localhost:10101/chat/messages", {
+        const res = await fetch("http://localhost:8000/chat/messages", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -327,13 +343,13 @@ export default function Chat() {
                   >
                     <div className={`flex items-end space-x-2 ${m.sender_id === loggedInUserId ? "flex-row-reverse space-x-reverse" : ""}`}>
                       <Avatar>
-                        <AvatarImage src={currentUser?.avatar} alt={m.sender_id === loggedInUserId ? userCookie.username : currentUser?.first_name} />
-                        <AvatarFallback className="bg-violet-500 text-white-600 font-bold">{m.sender_id === loggedInUserId ? userCookie.username[0] : currentUser?.first_name[0]}</AvatarFallback>
+                        <AvatarImage src={currentUser?.avatar} alt={m.sender_id === loggedInUserId ? userCookie!.username : currentUser?.first_name} />
+                        <AvatarFallback className="bg-violet-500 text-white-600 font-bold">{m.sender_id === loggedInUserId ? userCookie!.username[0] : currentUser?.first_name[0]}</AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
                         <div
                           className={`max-w-xs px-4 py-2 rounded-lg ${
-                            m.sender_id === loggedInUserId ? "bg-blue-500 text-white" : "bg-blue-500 text-white"
+                            m.sender_id === loggedInUserId ? "bg-purple-500 text-white" : "bg-purple-500 text-white"
                           }`}
                         >
                           {m.content}
@@ -349,7 +365,7 @@ export default function Chat() {
             <div className="p-4 border-t border-white/20 bg-white/5 backdrop-blur-sm">
               <form onSubmit={onSubmit} className="flex flex-col space-y-2">
                 {attachment && (
-                  <div className="flex items-center bg-blue-100 rounded-md px-3 py-1">
+                  <div className="flex items-center bg-purple-100 rounded-md px-3 py-1">
                     <span className="text-sm truncate max-w-[200px]">{attachment.name}</span>
                     <Button variant="ghost" size="icon" className="h-6 w-6 ml-1" onClick={() => setAttachment(null)} type="button">
                       <X className="h-3 w-3" />
@@ -380,7 +396,7 @@ export default function Chat() {
                         size="icon"
                         variant="outline"
                         className={`border-white/20 bg-white/10 text-white hover:bg-white/20 ${
-                          selectedTimer ? "bg-blue-500/20" : ""
+                          selectedTimer ? "bg-purple-500/20" : ""
                         }`}
                       >
                         <Timer className="h-4 w-4" />
@@ -399,7 +415,7 @@ export default function Chat() {
                       )}
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button type="submit" size="icon" className="bg-blue-500/80 hover:bg-blue-500/90 text-white">
+                  <Button type="submit" size="icon" className="bg-purple-500/80 hover:bg-purple-500/90 text-white">
                     <Send className="h-4 w-4" />
                   </Button>
                 </div>
